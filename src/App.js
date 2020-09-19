@@ -15,14 +15,15 @@ const App = () => {
   //getRecipes();
   // }, [query]);
 
-  const getRecipes = async () => {
-    const response = await fetch(
+  const getRecipes = () =>
+    fetch(
       `https://api.edamam.com/search?q=${query}&app_id=${API_ID}&app_key=${API_KEY}`
-    );
-    const data = response.json();
-    setRecipes(data.hits);
-    console.log(recipes);
-  };
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setRecipes(data.hits);
+        console.log(data.hits);
+      });
 
   const updateSearch = (e) => {
     setSearch(e.target.value);
@@ -47,10 +48,11 @@ const App = () => {
           Search
         </button>
       </form>
+
       {recipes.map((obj) => (
         <Recipe
           key={obj.recipe.label}
-          image={obj.recipe.img}
+          image={obj.recipe.image}
           title={obj.recipe.label}
           calories={obj.recipe.calories}
         />
