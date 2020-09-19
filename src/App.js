@@ -9,9 +9,11 @@ const App = () => {
 
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState("");
+  const [query, setQuery] = useState("");
+
   useEffect(() => {
     getRecipes();
-  }, [search]);
+  }, []);
 
   const getRecipes = async () => {
     const response = await fetch(
@@ -19,10 +21,16 @@ const App = () => {
     );
     const data = response.json();
     setRecipes(data.hits);
+    console.log(recipes);
   };
 
   const updateSearch = (e) => {
     setSearch(e.target.value);
+  };
+
+  const getSearch = (e) => {
+    e.preventDefault();
+    setQuery(search);
   };
 
   return (
@@ -34,7 +42,7 @@ const App = () => {
           value={search}
           onChange={updateSearch}
         />
-        <button type="submit" className="search-button">
+        <button onClick={getSearch} type="submit" className="search-button">
           Search
         </button>
       </form>
